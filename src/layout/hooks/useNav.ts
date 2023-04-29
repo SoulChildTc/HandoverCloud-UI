@@ -35,6 +35,18 @@ export function useNav() {
     return useUserStoreHook()?.username;
   });
 
+  const nickname = computed(() => {
+    return useUserStoreHook()?.nickname;
+  });
+
+  const avatar = computed(() => {
+    if (useUserStoreHook()?.avatar == "") {
+      return "https://www.soulchild.cn/images/avatar.png";
+    } else {
+      return useUserStoreHook()?.avatar;
+    }
+  });
+
   const avatarsStyle = computed(() => {
     return username.value ? { marginRight: "10px" } : "";
   });
@@ -149,6 +161,8 @@ export function useNav() {
     isCollapse,
     pureApp,
     username,
+    nickname,
+    avatar,
     avatarsStyle,
     tooltipEffect
   };

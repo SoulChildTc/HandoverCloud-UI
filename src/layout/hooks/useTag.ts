@@ -24,8 +24,8 @@ import {
 import Fullscreen from "@iconify-icons/ri/fullscreen-fill";
 import CloseAllTags from "@iconify-icons/ri/subtract-line";
 import CloseOtherTags from "@iconify-icons/ri/text-spacing";
-import CloseRightTags from "@iconify-icons/ri/text-direction-l";
-import CloseLeftTags from "@iconify-icons/ri/text-direction-r";
+import CloseRightTags from "@iconify-icons/ri/contract-right-line";
+import CloseLeftTags from "@iconify-icons/ri/contract-left-line";
 import RefreshRight from "@iconify-icons/ep/refresh-right";
 import Close from "@iconify-icons/ep/close";
 

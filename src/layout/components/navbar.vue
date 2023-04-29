@@ -14,8 +14,9 @@ const {
   logout,
   onPanel,
   pureApp,
-  username,
+  nickname,
   avatarsStyle,
+  avatar,
   toggleSideBar
 } = useNav();
 </script>
@@ -46,11 +47,8 @@ const {
       <!-- 退出登录 -->
       <el-dropdown trigger="click">
         <span class="el-dropdown-link navbar-bg-hover select-none">
-          <img
-            src="https://avatars.githubusercontent.com/u/44761321?v=4"
-            :style="avatarsStyle"
-          />
-          <p v-if="username" class="dark:text-white">{{ username }}</p>
+          <img :src="avatar" :style="avatarsStyle" />
+          <p v-if="nickname" class="dark:text-white">{{ nickname }}</p>
         </span>
         <template #dropdown>
           <el-dropdown-menu class="logout">

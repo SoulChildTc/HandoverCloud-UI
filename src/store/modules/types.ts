@@ -39,4 +39,6 @@ export type setType = {
 export type userType = {
   username?: string;
   roles?: Array<string>;
+  nickname?: string;
+  avatar?: string;
 };

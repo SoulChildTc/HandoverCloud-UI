@@ -15,6 +15,12 @@ export const useUserStore = defineStore({
     // 用户名
     username:
       storageSession().getItem<DataInfo<number>>(sessionKey)?.username ?? "",
+    // 昵称
+    nickname:
+      storageSession().getItem<DataInfo<number>>(sessionKey)?.nickname ?? "",
+    // 头像
+    avatar:
+      storageSession().getItem<DataInfo<number>>(sessionKey)?.avatar ?? "",
     // 页面级别权限
     roles: storageSession().getItem<DataInfo<number>>(sessionKey)?.roles ?? []
   }),
@@ -22,6 +28,14 @@ export const useUserStore = defineStore({
     /** 存储用户名 */
     SET_USERNAME(username: string) {
       this.username = username;
+    },
+    /** 存储昵称 */
+    SET_NICKNAME(nickname: string) {
+      this.username = nickname;
+    },
+    /** 存储头像url */
+    SET_AVATAR(avatar: string) {
+      this.username = avatar;
     },
     /** 存储角色 */
     SET_ROLES(roles: Array<string>) {
