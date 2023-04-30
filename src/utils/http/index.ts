@@ -13,6 +13,8 @@ import { stringify } from "qs";
 import NProgress from "../progress";
 import { getToken, formatToken } from "@/utils/auth";
 import { useUserStoreHook } from "@/store/modules/user";
+import { message } from "@/utils/message";
+import { ResponseBase } from "@/api/base";
 
 // 相关配置请参考：www.axios-js.com/zh-cn/docs/#axios-request-config-1
 const defaultConfig: AxiosRequestConfig = {
@@ -134,11 +136,16 @@ class PureHttp {
         }
         return response.data;
       },
-      (error: PureHttpError) => {
+      (error: PureHttpError<ResponseBase>) => {
         const $error = error;
         $error.isCancelRequest = Axios.isCancel($error);
         // 关闭进度条动画
         NProgress.done();
+        // 错误提示
+        message(error.response.data.msg, {
+          type: "error",
+          duration: 3000
+        });
         // 所有的响应异常 区分来源为取消请求/非取消请求
         return Promise.reject($error);
       }

@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import Motion from "./utils/motion";
 import { useRouter } from "vue-router";
-import { message } from "@/utils/message";
 import { loginRules } from "./utils/rule";
 import { useNav } from "@/layout/hooks/useNav";
 import type { FormInstance } from "element-plus";
@@ -57,13 +56,11 @@ const onLogin = async (formEl: FormInstance | undefined) => {
             usePermissionStoreHook().handleWholeMenus([]);
             addPathMatch();
             router.push("/");
-            message("登录成功", { type: "success" });
           }
         })
         .catch(err => {
           loading.value = false;
           console.log(err);
-          message("登录失败," + err.response.data.msg, { type: "error" });
         });
     } else {
       loading.value = false;
