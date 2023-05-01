@@ -253,7 +253,7 @@ const handleDeleteCluster = (row: CreateOrUpdateCluster) => {
         <el-descriptions-item label="API Server地址" :span="6">{{
           dataList[currentRow].host
         }}</el-descriptions-item>
-        <el-descriptions-item label="集群版本" :span="2">
+        <el-descriptions-item label="集群版本" :span="1">
           <template v-if="dataList[currentRow].version != ''">
             <el-tag size="small" effect="dark">{{
               dataList[currentRow].version
@@ -263,10 +263,10 @@ const handleDeleteCluster = (row: CreateOrUpdateCluster) => {
             {{ dataList[currentRow].version }}
           </template>
         </el-descriptions-item>
-        <el-descriptions-item label="节点数量" :span="2"
+        <el-descriptions-item label="节点数量" :span="1"
           >{{ dataList[currentRow].nodeNum }}
         </el-descriptions-item>
-        <el-descriptions-item label="不安全模式" :span="2"
+        <el-descriptions-item label="不安全模式" :span="6"
           >{{ dataList[currentRow].tlsClientConfig.insecure ? "是" : "否" }}
         </el-descriptions-item>
         <el-descriptions-item label="集群状态" :span="6">
