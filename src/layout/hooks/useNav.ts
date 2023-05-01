@@ -36,6 +36,7 @@ export function useNav() {
   });
 
   const nickname = computed(() => {
+    console.log(nickname);
     return useUserStoreHook()?.nickname;
   });
 
