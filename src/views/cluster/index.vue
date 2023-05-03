@@ -47,8 +47,6 @@ const handleOpenForm = (
   type: string,
   row: CreateOrUpdateCluster | undefined
 ) => {
-  console.log(type);
-
   if (type == "update") {
     CreateOrUpdateForm.submitBtn = "更新";
     CreateOrUpdateForm.formTitle = "更新集群";
@@ -95,11 +93,9 @@ let clusterForm = reactive<CreateOrUpdateCluster>({
 
 // 提交表单
 const submitForm = async (formEl: FormInstance | undefined) => {
-  console.log(clusterForm);
   if (!formEl) return;
   await formEl.validate((valid, fields) => {
     if (valid) {
-      console.log("submit!");
       if (CreateOrUpdateForm.submitBtn === "更新") {
         updateCluster(clusterForm).then(success => {
           if (success.status === "success") {
@@ -127,7 +123,6 @@ const submitForm = async (formEl: FormInstance | undefined) => {
 const resetForm = (formEl: FormInstance | undefined) => {
   if (!formEl) return;
   formEl.resetFields();
-  console.log(clusterForm);
 };
 
 // 只允许通过取消关闭表单, 其他方式无法关闭

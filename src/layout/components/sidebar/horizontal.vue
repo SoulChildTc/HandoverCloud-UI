@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import Search from "../search/index.vue";
 import Notice from "../notice/index.vue";
+import Cluster from "../cluster/index.vue";
 import { ref, watch, nextTick } from "vue";
 import SidebarItem from "./sidebarItem.vue";
 import { useNav } from "@/layout/hooks/useNav";
@@ -64,6 +65,8 @@ watch(
       <Search />
       <!-- 通知 -->
       <Notice id="header-notice" />
+      <!-- 选择集群 -->
+      <Cluster />
       <!-- 退出登录 -->
       <el-dropdown trigger="click">
         <span class="el-dropdown-link navbar-bg-hover">

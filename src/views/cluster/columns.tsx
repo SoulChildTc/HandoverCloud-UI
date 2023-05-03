@@ -123,9 +123,7 @@ export function useColumns() {
     loading.value = true;
     getClusterList(force)
       .then((success: ClusterList) => {
-        console.log(success);
         dataList.value = success.data;
-        console.log(success.data);
         pagination.total = dataList.value.length;
         loading.value = false;
       })

@@ -2,6 +2,7 @@
 import extraIcon from "./extraIcon.vue";
 import Search from "../search/index.vue";
 import Notice from "../notice/index.vue";
+import Cluster from "../cluster/index.vue";
 import { useNav } from "@/layout/hooks/useNav";
 import { ref, toRaw, watch, onMounted, nextTick } from "vue";
 import { useRenderIcon } from "@/components/ReIcon/src/hooks";
@@ -95,6 +96,8 @@ watch(
       <Search />
       <!-- 通知 -->
       <Notice id="header-notice" />
+      <!-- 选择集群 -->
+      <Cluster />
       <!-- 退出登录 -->
       <el-dropdown trigger="click">
         <span class="el-dropdown-link navbar-bg-hover select-none">
