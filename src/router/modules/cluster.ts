@@ -4,16 +4,16 @@ export default {
   path: "/cluster",
   name: "cluster",
   component: Layout,
-  redirect: "/list",
+  redirect: "/cluster/list",
   meta: {
     icon: "ri:cloud-windy-line",
     title: "集群管理",
-    rank: 0
+    rank: 10
   },
   children: [
     {
-      path: "/list",
-      name: "list",
+      path: "/cluster/list",
+      name: "cluster-list",
       component: () => import("@/views/cluster/index.vue"),
       meta: {
         icon: "ri:list-check",
