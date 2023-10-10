@@ -8,7 +8,7 @@ export interface TLSClientConfig {
   caData: string;
 }
 
-export interface Data {
+export interface ClusterList {
   clusterName: string;
   host: string;
   bearerToken: string;
@@ -17,10 +17,6 @@ export interface Data {
   status: string;
   nodeNum: number;
 }
-
-export type ClusterList = ResponseBase & {
-  data: Data[];
-};
 
 export type CreateOrUpdateCluster = {
   clusterName: string;
@@ -31,7 +27,9 @@ export type CreateOrUpdateCluster = {
 
 /** 获取集群列表 */
 export const getClusterList = (force = false) => {
-  return http.get<any, ClusterList>(`/api/v1/k8s/cluster/?force=${force}`);
+  return http.get<any, ResponseBase<ClusterList[]>>(
+    `/api/v1/k8s/cluster/?force=${force}`
+  );
 };
 
 /** 删除集群 */
@@ -51,7 +49,7 @@ export const updateCluster = (data: CreateOrUpdateCluster) => {
   );
 };
 
-/** 更新集群 */
+/** 创建集群 */
 export const createCluster = (data: CreateOrUpdateCluster) => {
   return http.request<ResponseBase>(
     "post",

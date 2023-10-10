@@ -2,6 +2,7 @@ import { delay } from "@pureadmin/utils";
 import { ref, onMounted, reactive } from "vue";
 import type { PaginationProps, LoadingConfig } from "@pureadmin/table";
 import { getClusterList, ClusterList } from "@/api/k8s/cluster";
+import { ResponseBase } from "@/api/base";
 
 export function useColumns() {
   const dataList = ref([]);
@@ -122,12 +123,12 @@ export function useColumns() {
   async function getData(force = false) {
     loading.value = true;
     getClusterList(force)
-      .then((success: ClusterList) => {
+      .then((success: ResponseBase<ClusterList[]>) => {
         dataList.value = success.data;
         pagination.total = dataList.value.length;
         loading.value = false;
       })
-      .catch((err: ClusterList) => {
+      .catch((err: ResponseBase<ClusterList[]>) => {
         console.log(err);
       });
   }

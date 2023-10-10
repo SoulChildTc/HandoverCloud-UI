@@ -1,30 +1,12 @@
 import { http } from "@/utils/http";
-import { ResponseBase } from "../base";
-
-export type DeploymentList = ResponseBase & {
-  data: Data;
-};
-
-export type Data = {
-  limit: number;
-  page: number;
-  total: number;
-  items: [];
-};
-
-export type Page = {
-  namespace?: string;
-  page?: number;
-  limit?: number;
-  filter?: string;
-};
+import { ResponseBase, PageReq, PageResponse } from "../base";
 
 /* 获取应用列表 */
-export const getDeoloymentList = (data: Page) => {
+export const getDeoloymentList = (data: PageReq) => {
   const clusterName = localStorage.getItem("currentCluster");
   const { page, limit, filter } = data;
   const namespace = data.namespace ?? "";
-  return http.get<any, DeploymentList>(
+  return http.get<any, ResponseBase<PageResponse>>(
     `/api/v1/k8s/${clusterName}/deployment/${namespace}`,
     {
       params: {
@@ -43,7 +25,7 @@ export const getDeoloymentPods = (data: {
 }) => {
   const clusterName = localStorage.getItem("currentCluster");
   const namespace = data.namespace ?? "";
-  return http.get<any, DeploymentList>(
+  return http.get<any, ResponseBase<PageResponse>>(
     `/api/v1/k8s/${clusterName}/deployment/${namespace}/${data.name}/pods`
   );
 };

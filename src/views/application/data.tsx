@@ -1,15 +1,13 @@
 import { reactive, onMounted, ref } from "vue";
 import type { PaginationProps, LoadingConfig } from "@pureadmin/table";
-import {
-  getDeoloymentList,
-  Page,
-  DeploymentList,
-  getDeoloymentPods
-} from "@/api/k8s/deployment";
+import { getDeoloymentList, getDeoloymentPods } from "@/api/k8s/deployment";
+import { PageResponse, ResponseBase, PageReq } from "@/api/base";
+import { getNamespaceList } from "@/api/k8s/namespace";
 
 export function useData() {
   const dataList = ref([]);
   const loading = ref(true);
+  const namespaceList = ref([]);
   const columns: TableColumnList = [
     {
       type: "selection",
@@ -26,7 +24,8 @@ export function useData() {
     {
       label: "名称空间",
       prop: "metadata.namespace",
-      sortable: false
+      sortable: false,
+      align: "left"
     },
     {
       label: "应用名称",
@@ -117,36 +116,60 @@ export function useData() {
   });
 
   function onSizeChange(val) {
-    console.log("onSizeChange", val);
+    pagination.pageSize = val;
+    onCurrentChange(pagination.currentPage);
   }
 
   function onCurrentChange(val) {
     loadingConfig.text = `正在加载第${val}页...`;
     loading.value = true;
-    // delay(600).then(() => {
-    //   loading.value = false;
-    // });
-    setTimeout(() => {
-      loading.value = false;
-    }, 1000);
+    getData({
+      page: pagination.currentPage,
+      limit: pagination.pageSize
+      // filter: form.filter,
+      // namespace: form.namespace
+    })
+      .then((success: any[]) => {
+        dataList.value = success;
+      })
+      .finally(() => {
+        loading.value = false;
+      });
   }
 
   function onSelectionChange(val) {
     console.log(val);
   }
 
-  async function getData(data: Page = {}) {
+  async function getData(data: PageReq = {}) {
     loading.value = true;
-    getDeoloymentList(data)
-      .then((success: DeploymentList) => {
-        dataList.value = success.data.items;
-        dataList.value[0].hasChildren = true;
-        pagination.total = success.data.total;
-        loading.value = false;
-      })
-      .catch((err: DeploymentList) => {
-        console.log(err);
-      });
+    return new Promise<any[]>((resolve, reject) => {
+      getDeoloymentList(data)
+        .then((success: ResponseBase<PageResponse>) => {
+          success.data.items.forEach((value, index) => {
+            if (value.spec.replicas > 0) {
+              success.data.items[index].hasChildren = true;
+            }
+          });
+          pagination.total = success.data.total;
+          resolve(success.data.items);
+        })
+        .catch((err: []) => {
+          console.log(err);
+          reject([]);
+        })
+        .finally(() => {
+          loading.value = false;
+        });
+    });
+  }
+
+  async function getNamespaceData(data: PageReq = {}) {
+    data.page = 1;
+    data.limit = 1000;
+    getNamespaceList(data).then((success: ResponseBase<PageResponse>) => {
+      namespaceList.value = success.data.items;
+    });
   }
 
   async function expand(
@@ -159,18 +182,20 @@ export function useData() {
       namespace: row.metadata.namespace,
       name: row.metadata.name
     })
-      .then((success: any) => {
-        console.log(success);
+      .then((success: ResponseBase<PageResponse>) => {
         resolve(success.data.items);
         // loading.value = false;
       })
-      .catch((err: DeploymentList) => {
+      .catch((err: ResponseBase<PageResponse>) => {
         console.log(err);
       });
   }
 
   onMounted(async () => {
-    getData({});
+    getData({ namespace: "default" }).then(data => {
+      dataList.value = data;
+    });
+    getNamespaceData();
   });
 
   return {
@@ -180,6 +205,8 @@ export function useData() {
     pagination,
     loadingConfig,
     getData,
+    getNamespaceData,
+    namespaceList,
     expand,
     onSizeChange,
     onCurrentChange,

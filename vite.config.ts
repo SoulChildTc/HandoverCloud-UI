@@ -46,6 +46,7 @@ export default ({ command, mode }: ConfigEnv): UserConfigExport => {
       proxy: {
         "^/api/.*": {
           target: "http://127.0.0.1:8080", // 这里填写后端地址
+          // target: "http://handover.k8s.soulchild.cn",
           changeOrigin: true
           // rewrite: path => path.replace(/^\/api/, "") // 比如请求前端的/api/xxx, 发送到target的请求就是/xxx
         }
